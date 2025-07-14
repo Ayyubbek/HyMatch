@@ -64,7 +64,7 @@ export const mockJobs: Job[] = [
     japaneseLevel: 'N4',
     commuteTime: '40 minutes',
     location: 'Roppongi, Tokyo',
-    workDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    workDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     highlights: ['Uniform provided', 'Quiet environment', 'Bonus pay'],
   },
   {

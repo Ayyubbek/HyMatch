@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 function CustomHeader() {
   return (
-    <View className="flex-row justify-between items-center px-4 py-8 bg-white border-b border-gray-200">
+    <View className="flex-row justify-between items-center px-4 py-8  bg-white border-b border-gray-200">
       <TouchableOpacity className="p-2">
         <FontAwesome name="bars" size={24} color="#007AFF" />
       </TouchableOpacity>

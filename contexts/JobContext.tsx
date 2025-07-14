@@ -1,12 +1,12 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Job } from '@/types/Job';
-import { JobApplication } from '@/types/JobApplication';
-import { mockJobs } from '@/data/mockJobs';
+import { mockJobs } from "@/data/mockJobs";
+import { createContext, ReactNode, useContext, useState } from "react";
+import { Job } from "../types/Job";
+import { JobApplication } from "../types/JobApplication";
 
 interface JobContextType {
   jobs: Job[];
   applications: JobApplication[];
-  addApplication: (jobId: string, status: 'chosen' | 'refused') => void;
+  addApplication: (jobId: string, status: "chosen" | "refused") => void;
   getChosenJobs: () => Job[];
   getRefusedJobs: () => Job[];
   filters: JobFilters;
@@ -22,7 +22,7 @@ export interface JobFilters {
   workDays: string[];
 }
 
-export type SortOption = 'wage' | 'commute' | 'date';
+export type SortOption = "wage" | "commute" | "date";
 
 const JobContext = createContext<JobContextType | undefined>(undefined);
 
@@ -35,45 +35,47 @@ export function JobProvider({ children }: { children: ReactNode }) {
     japaneseLevels: [],
     workDays: [],
   });
-  const [sortBy, setSortBy] = useState<SortOption>('date');
+  const [sortBy, setSortBy] = useState<SortOption>("date");
 
-  const addApplication = (jobId: string, status: 'chosen' | 'refused') => {
+  const addApplication = (jobId: string, status: "chosen" | "refused") => {
     const newApplication: JobApplication = {
       id: Date.now().toString(),
       jobId,
-      userId: 'current-user',
+      userId: "current-user",
       status,
       appliedAt: new Date(),
     };
-    setApplications(prev => [...prev, newApplication]);
+    setApplications((prev) => [...prev, newApplication]);
   };
 
   const getChosenJobs = () => {
     const chosenJobIds = applications
-      .filter(app => app.status === 'chosen')
-      .map(app => app.jobId);
-    return jobs.filter(job => chosenJobIds.includes(job.id));
+      .filter((app) => app.status === "chosen")
+      .map((app) => app.jobId);
+    return jobs.filter((job) => chosenJobIds.includes(job.id));
   };
 
   const getRefusedJobs = () => {
     const refusedJobIds = applications
-      .filter(app => app.status === 'refused')
-      .map(app => app.jobId);
-    return jobs.filter(job => refusedJobIds.includes(job.id));
+      .filter((app) => app.status === "refused")
+      .map((app) => app.jobId);
+    return jobs.filter((job) => refusedJobIds.includes(job.id));
   };
 
   return (
-    <JobContext.Provider value={{
-      jobs,
-      applications,
-      addApplication,
-      getChosenJobs,
-      getRefusedJobs,
-      filters,
-      setFilters,
-      sortBy,
-      setSortBy,
-    }}>
+    <JobContext.Provider
+      value={{
+        jobs,
+        applications,
+        addApplication,
+        getChosenJobs,
+        getRefusedJobs,
+        filters,
+        setFilters,
+        sortBy,
+        setSortBy,
+      }}
+    >
       {children}
     </JobContext.Provider>
   );
@@ -82,7 +84,7 @@ export function JobProvider({ children }: { children: ReactNode }) {
 export function useJobs() {
   const context = useContext(JobContext);
   if (context === undefined) {
-    throw new Error('useJobs must be used within a JobProvider');
+    throw new Error("useJobs must be used within a JobProvider");
   }
   return context;
 }
