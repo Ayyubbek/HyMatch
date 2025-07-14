@@ -1,15 +1,24 @@
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
+import { useJobAction } from "@/contexts/JobActionContext";
+import JobCard from "../../components/JobCard";
 import "../../global.css";
+import CompactJobCard from "@/components/CompactJobCard";
 
 export default function Refused() {
+  const { refusedJobs } = useJobAction();
+
   return (
-    <View className="flex-1 justify-center items-center bg-gray-50">
-      <Text className="text-xl font-semibold text-gray-800 mb-4">
+    <ScrollView className="flex-1 bg-gray-50 px-4 py-4">
+      <Text className="text-xl font-semibold text-gray-800 mb-4 text-center">
         Refused Jobs
       </Text>
-      <Text className="text-gray-600 text-center px-6">
-        Bu yerda rad etilgan ishlar ko'rsatiladi
-      </Text>
-    </View>
+      {refusedJobs.length === 0 ? (
+        <Text className="text-gray-600 text-center px-6">
+          Hali hech qanday ish rad etilmadi.
+        </Text>
+      ) : (
+        refusedJobs.map((job, i) => <CompactJobCard key={i} job={job} />)
+      )}
+    </ScrollView>
   );
 }

@@ -1,5 +1,10 @@
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
+import { JobActionProvider } from "@/contexts/JobActionContext";
 
 export default function RootLayout() {
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <JobActionProvider>
+      <Slot />
+    </JobActionProvider>
+  );
 }
