@@ -130,7 +130,7 @@ export default function Jobs() {
                     color: "#16a34a",
                   }}
                 >
-                  CHOSEN
+                  CHOOSE
                 </Text>
               </LinearGradient>
             ),
