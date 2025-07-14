@@ -97,7 +97,11 @@ export default function JobCard({ job }: JobCardProps) {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         className="rounded-xl mb-4 shadow-md"
-        style={{ paddingVertical: 18 }}
+        style={{
+          paddingVertical: 18,
+          borderRadius: 20,
+       
+        }}
       >
         <Text className="text-white text-2xl font-bold text-center">
           {job.salary}
@@ -106,7 +110,7 @@ export default function JobCard({ job }: JobCardProps) {
       </LinearGradient>
 
       {/* Info */}
-      <View className="gap-3.5 mb-4">
+      <View className="gap-3.5 mb-2">
         <View className="flex-row items-center bg-gray-50 rounded-xl px-4 py-3 mb-2 mt-4">
           <MaterialIcons name="menu-book" size={20} color="#6366f1" />
           <Text className="ml-2 text-gray-500">Japanese Level:</Text>
@@ -138,7 +142,10 @@ export default function JobCard({ job }: JobCardProps) {
         {job.workDays.map((d: string, i: number) => (
           <Text
             key={i}
-            className="bg-violet-100 text-violet-700 text-xs rounded px-3 py-1 mr-2 mb-1 font-semibold"
+            className="bg-violet-100 text-violet-700 rounded px-2 py-1 mr-2 mb-1 font-semibold"
+            style={{
+              fontSize: 12,
+            }}
           >
             {d}
           </Text>
