@@ -1,7 +1,15 @@
 import { Entypo, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { animated, useSpring } from "@react-spring/native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, TouchableOpacity, View } from "react-native";
 import { useState } from "react";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
 
 interface CompactJobCardProps {
   job: {
@@ -13,88 +21,244 @@ interface CompactJobCardProps {
     commuteTime: string;
     location: string;
     workDays: string[];
-    highlights: string[];
+    highlights?: string[];
   };
+  mode?: "chosen" | "refused";
+  onDelete?: () => void;
+  onRefuse?: () => void;
+  onChoose?: () => void;
 }
 
-export default function CompactJobCard({ job }: CompactJobCardProps) {
+const AnimatedView = animated(View);
+
+export default function CompactJobCard({
+  job,
+  mode,
+  onDelete,
+  onRefuse,
+  onChoose,
+}: CompactJobCardProps) {
   const [isPressed, setIsPressed] = useState(false);
 
+  const springProps = useSpring({
+    to: { scale: isPressed ? 0.98 : 1 },
+    config: { tension: 300, friction: 20 },
+  });
+
   return (
-    <TouchableOpacity
-     // Android shadow
-      onPressIn={() => setIsPressed(true)}
-      onPressOut={() => setIsPressed(false)}
-      className={`w-full max-w-md rounded-2xl mb-4 p-5 shadow-lg border border-gray-100 transform transition-transform duration-200 ${
-        isPressed ? "scale-950" : "scale-100"
-      }`}
-      style={{
-        backgroundColor: "#fff",
-        elevation: 5, // Android shadow
-        shadowColor: "#000", // iOS shadow
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
-        padding: 18,
-      }}
+    <AnimatedView
+      style={[
+        {
+          transform: [{ scale: springProps.scale }],
+        },
+        styles.cardContainer,
+      ]}
     >
-      <LinearGradient
-        colors={["#f8fafc", "#ffffff"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        className="rounded-2xl p-4"
+      <TouchableOpacity
+        onPressIn={() => setIsPressed(true)}
+        onPressOut={() => setIsPressed(false)}
+        activeOpacity={1}
+        disabled={!(onChoose || onRefuse || onDelete)}
       >
-        {/* Job Title */}
-        <Text className="text-xl font-bold text-gray-900 mb-3">
-          {job.title}
-        </Text>
+        <LinearGradient
+          colors={["#f0f9ff", "#ffffff"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.gradientBox}
+        >
+          {/* Title */}
+          <Text style={styles.title}>{job.title}</Text>
 
-        {/* Location and Commute */}
-        <View className="flex-row items-center justify-between mb-4">
-          <View className="flex-row items-center">
-            <Entypo name="location-pin" size={18} color="#3B82F6" />
-            <Text className="text-sm text-gray-700 font-medium ml-2">
-              {job.location}
-            </Text>
-          </View>
-          <View className="flex-row items-center">
-            <FontAwesome name="subway" size={16} color="#3B82F6" />
-            <Text className="text-sm text-gray-700 font-medium ml-2">
-              {job.commuteTime}
-            </Text>
-          </View>
-        </View>
-
-        {/* Salary & Japanese Level */}
-        <View className="flex-row justify-between items-center mb-4">
-          <View className="flex-row items-center">
-            <MaterialIcons name="attach-money" size={18} color="#22C55E" />
-            <Text className="text-sm text-green-600 font-semibold ml-2">
-              {job.salary}
-            </Text>
-          </View>
-          <View className="flex-row items-center">
-            <FontAwesome name="language" size={16} color="#6366F1" />
-            <Text className="text-sm text-indigo-600 font-semibold ml-2">
-              JLPT {job.japaneseLevel}
-            </Text>
-          </View>
-        </View>
-
-        {/* Work Days */}
-        <View className="flex-row flex-wrap gap-2">
-          {job.workDays.map((day, index) => (
-            <View
-              key={index}
-              className="bg-indigo-50 px-3 py-1.5 rounded-full"
-            >
-              <Text className="text-xs text-indigo-700 font-semibold">
-                {day}
-              </Text>
+          {/* Location & Commute */}
+          <View style={styles.rowBetween}>
+            <View style={styles.row}>
+              <Entypo name="location-pin" size={20} color="#3B82F6" />
+              <Text style={styles.subText}>{job.location}</Text>
             </View>
-          ))}
-        </View>
-      </LinearGradient>
-    </TouchableOpacity>
+            <View style={styles.row}>
+              <FontAwesome name="subway" size={18} color="#3B82F6" />
+              <Text style={styles.subText}>{job.commuteTime}</Text>
+            </View>
+          </View>
+
+          {/* Salary & JLPT */}
+          <View style={styles.rowBetween}>
+            <View style={styles.row}>
+              <MaterialIcons name="attach-money" size={20} color="#22C55E" />
+              <Text style={styles.salaryText}>{job.salary}</Text>
+            </View>
+            <View style={styles.row}>
+              <FontAwesome name="language" size={18} color="#6366F1" />
+              <Text style={styles.jlptText}>JLPT {job.japaneseLevel}</Text>
+            </View>
+          </View>
+
+          {/* Work Days */}
+          <View style={styles.daysWrapper}>
+            {job.workDays.map((day, index) => (
+              <View key={index} style={styles.dayBadge}>
+                <Text style={styles.dayText}>{day}</Text>
+              </View>
+            ))}
+          </View>
+
+          {/* Action Buttons */}
+          <View style={styles.actionWrapper}>
+            {mode === "chosen" && onRefuse && (
+              <TouchableOpacity onPress={onRefuse} style={styles.refuseBtn}>
+                <FontAwesome name="times-circle" size={20} color="#dc2626" />
+                <Text style={styles.refuseText}>Refuse</Text>
+              </TouchableOpacity>
+            )}
+            {mode === "refused" && onChoose && (
+              <TouchableOpacity onPress={onChoose} style={styles.chooseBtn}>
+                <FontAwesome name="check-circle" size={20} color="#16a34a" />
+                <Text style={styles.chooseText}>Choose</Text>
+              </TouchableOpacity>
+            )}
+            {onDelete && (
+              <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
+                <MaterialIcons name="delete" size={20} color="#6b7280" />
+                <Text style={styles.deleteText}>Delete</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </LinearGradient>
+      </TouchableOpacity>
+    </AnimatedView>
   );
 }
+
+const styles = StyleSheet.create({
+  cardContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 6,
+  } as ViewStyle,
+
+  gradientBox: {
+    padding: 16,
+    borderRadius: 16,
+  },
+
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#111827",
+    marginBottom: 12,
+  } as TextStyle,
+
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  } as ViewStyle,
+
+  rowBetween: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  } as ViewStyle,
+
+  subText: {
+    marginLeft: 8,
+    fontSize: 14,
+    color: "#4B5563",
+    fontWeight: "500",
+  } as TextStyle,
+
+  salaryText: {
+    marginLeft: 8,
+    fontSize: 14,
+    color: "#22C55E",
+    fontWeight: "600",
+  } as TextStyle,
+
+  jlptText: {
+    marginLeft: 8,
+    fontSize: 14,
+    color: "#6366F1",
+    fontWeight: "600",
+  } as TextStyle,
+
+  daysWrapper: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginTop: 4,
+    marginBottom: 12,
+  } as ViewStyle,
+
+  dayBadge: {
+    backgroundColor: "#E0E7FF",
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginRight: 8,
+    marginBottom: 6,
+  },
+
+  dayText: {
+    fontSize: 12,
+    color: "#4F46E5",
+    fontWeight: "600",
+  } as TextStyle,
+
+  actionWrapper: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: 10,
+    marginTop: 8,
+  } as ViewStyle,
+
+  refuseBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FECACA",
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    marginRight: 8,
+  } as ViewStyle,
+
+  refuseText: {
+    marginLeft: 8,
+    fontWeight: "600",
+    color: "#B91C1C",
+  } as TextStyle,
+
+  chooseBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#BBF7D0",
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    marginRight: 8,
+  } as ViewStyle,
+
+  chooseText: {
+    marginLeft: 8,
+    fontWeight: "600",
+    color: "#15803D",
+  } as TextStyle,
+
+  deleteBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#E5E7EB",
+    borderRadius: 999,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+  } as ViewStyle,
+
+  deleteText: {
+    marginLeft: 8,
+    fontWeight: "600",
+    color: "#374151",
+  } as TextStyle,
+});

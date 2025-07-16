@@ -1,11 +1,10 @@
-import { ScrollView, Text, View } from "react-native";
-import { useJobAction } from "@/contexts/JobActionContext";
-import JobCard from "../../components/JobCard";
-import "../../global.css";
 import CompactJobCard from "@/components/CompactJobCard";
+import { useJobAction } from "@/contexts/JobActionContext";
+import { ScrollView, Text } from "react-native";
+import "../../global.css";
 
 export default function Chosen() {
-  const { chosenJobs } = useJobAction();
+  const { chosenJobs, addToRefused, removeFromChosen } = useJobAction();
 
   return (
     <ScrollView className="flex-1 bg-gray-50 px-4 py-4">
@@ -17,7 +16,18 @@ export default function Chosen() {
           Hali hech qanday ish tanlanmadi.
         </Text>
       ) : (
-        chosenJobs.map((job, i) => <CompactJobCard key={i} job={job} />)
+        chosenJobs.map((job, i) => (
+          <CompactJobCard
+            key={i}
+            job={job}
+            mode="chosen"
+            onRefuse={() => {
+              addToRefused(job);
+              removeFromChosen(job.id);
+            }}
+            onDelete={() => removeFromChosen(job.id)}
+          />
+        ))
       )}
     </ScrollView>
   );
