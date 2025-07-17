@@ -1,13 +1,6 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useMemo,
-} from 'react';
-import { Appearance } from 'react-native';
+import { createContext, ReactNode, useContext, useMemo, useState } from "react";
 
-export type Theme = 'light' | 'dark';
+export type Theme = "light" | "dark";
 
 interface ThemeContextType {
   theme: Theme;
@@ -18,16 +11,17 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const colorScheme = Appearance.getColorScheme();
-  const [theme, setTheme] = useState<Theme>(
-    colorScheme === 'dark' ? 'dark' : 'light'
-  );
+  // const colorScheme = Appearance.getColorScheme();
+  // const [theme, setTheme] = useState<Theme>(
+  //   colorScheme === 'dark' ? 'dark' : 'light'
+  // );
+  const [theme, setTheme] = useState<Theme>("light");
 
   const value = useMemo(
     () => ({
       theme,
       setTheme,
-      isDarkMode: theme === 'dark',
+      isDarkMode: theme === "dark",
     }),
     [theme]
   );
@@ -40,7 +34,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
 }

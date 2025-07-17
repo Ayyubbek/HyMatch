@@ -318,7 +318,7 @@ export function HamburgerMenu({ visible, onClose }: HamburgerMenuProps) {
               <Text
                 style={[styles.logoutText, isDarkMode && { color: "#EF4444" }]}
               >
-                Logout
+                {t("logout")}
               </Text>
             </TouchableOpacity>
           </View>

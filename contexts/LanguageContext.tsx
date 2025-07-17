@@ -72,6 +72,13 @@ const translations: Record<string, { [key: string]: string }> = {
     "commute.20 minutes": "20分",
     "commute.35 minutes": "35分",
     "commute.25 minutes": "25分",
+    "contact.subtitle": "ご不明な点があれば、サポートチームにご連絡ください。",
+    "contact.hours": "月〜金 9:00-18:00",
+    "contact.emailResponse": "24時間以内に返信します",
+    "contact.chat": "ライブチャット",
+    "contact.chatDetail": "チームとチャット",
+    "contact.chatHours": "24時間対応",
+    logout: "ログアウト",
   },
   en: {
     "app.title": "HyMatch",
@@ -135,6 +142,13 @@ const translations: Record<string, { [key: string]: string }> = {
     "commute.20 minutes": "20 minutes",
     "commute.35 minutes": "35 minutes",
     "commute.25 minutes": "25 minutes",
+    "contact.subtitle": "Need help? Get in touch with our support team.",
+    "contact.hours": "Mon-Fri 9:00-18:00",
+    "contact.emailResponse": "Response within 24 hours",
+    "contact.chat": "Live Chat",
+    "contact.chatDetail": "Chat with our team",
+    "contact.chatHours": "Available 24/7",
+    logout: "Logout",
   },
   uz: {
     "app.title": "HyMatch",
@@ -198,6 +212,14 @@ const translations: Record<string, { [key: string]: string }> = {
     "commute.20 minutes": "20 daqiqa",
     "commute.35 minutes": "35 daqiqa",
     "commute.25 minutes": "25 daqiqa",
+    "contact.subtitle":
+      "Savollaringiz bormi? Bizning yordam jamoamizga murojaat qiling.",
+    "contact.hours": "Du-Ju 9:00-18:00",
+    "contact.emailResponse": "24 soat ichida javob beramiz",
+    "contact.chat": "Jonli chat",
+    "contact.chatDetail": "Jamoamiz bilan suhbat",
+    "contact.chatHours": "24/7 mavjud",
+    logout: "Chiqish",
   },
 };
 
