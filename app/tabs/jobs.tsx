@@ -1,4 +1,5 @@
 import { useJobAction } from "@/contexts/JobActionContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { LinearGradient } from "expo-linear-gradient";
 import { Check, X } from "lucide-react-native";
 import { Text, View } from "react-native";
@@ -9,7 +10,7 @@ import "../../global.css";
 
 export default function Jobs() {
   const { addToChosen, addToRefused } = useJobAction();
-
+  const { t } = useLanguage();
   return (
     <View className="flex-1 px-4 py-4 items-center justify-center bg-white z-0">
       <View className="w-full h-full z-10 bg-transparent">
@@ -17,9 +18,20 @@ export default function Jobs() {
           cards={mockJobs}
           renderCard={(job) =>
             job ? (
-              <JobCard job={job} />
+              <JobCard
+                job={{
+                  ...job,
+                  title: t(`jobTitles.${job.title}`) || job.title,
+                  workDays: job.workDays.map((d: string) => t(`days.${d}`)),
+                  location: t(`locations.${job.location}`) || job.location,
+                  japaneseLevel:
+                    t(`jlpt.${job.japaneseLevel}`) || job.japaneseLevel,
+                  commuteTime:
+                    t(`commute.${job.commuteTime}`) || job.commuteTime,
+                }}
+              />
             ) : (
-              <Text className="text-center text-black">No more jobs</Text>
+              <Text className="text-center text-black">{t("jobs.empty")}</Text>
             )
           }
           stackSize={3}
@@ -41,7 +53,7 @@ export default function Jobs() {
           }}
           overlayLabels={{
             left: {
-              title: "REFUSE",
+              title: t("job.refuse"),
               style: {
                 label: { display: "none" },
                 wrapper: {
@@ -85,13 +97,13 @@ export default function Jobs() {
                       color: "#dc2626",
                     }}
                   >
-                    REFUSE
+                    {t("job.refuse")}
                   </Text>
                 </LinearGradient>
               ),
             },
             right: {
-              title: "CHOSEN",
+              title: t("job.choose"),
               style: {
                 label: { display: "none" },
                 wrapper: {
@@ -135,7 +147,7 @@ export default function Jobs() {
                       color: "#16a34a",
                     }}
                   >
-                    CHOOSE
+                    {t("job.choose")}
                   </Text>
                 </LinearGradient>
               ),

@@ -1,14 +1,15 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Entypo, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { animated, useSpring } from "@react-spring/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import {
+  StyleSheet,
   Text,
+  TextStyle,
   TouchableOpacity,
   View,
-  StyleSheet,
   ViewStyle,
-  TextStyle,
 } from "react-native";
 
 interface CompactJobCardProps {
@@ -39,6 +40,7 @@ export default function CompactJobCard({
   onChoose,
 }: CompactJobCardProps) {
   const [isPressed, setIsPressed] = useState(false);
+  const { t } = useLanguage();
 
   const springProps = useSpring({
     to: { scale: isPressed ? 0.98 : 1 },
@@ -82,15 +84,15 @@ export default function CompactJobCard({
           </View>
 
           {/* Salary & JLPT */}
-          <View style={styles.rowBetween}>
-            <View style={styles.row}>
-              <MaterialIcons name="attach-money" size={20} color="#22C55E" />
-              <Text style={styles.salaryText}>{job.salary}</Text>
-            </View>
-            <View style={styles.row}>
-              <FontAwesome name="language" size={18} color="#6366F1" />
-              <Text style={styles.jlptText}>JLPT {job.japaneseLevel}</Text>
-            </View>
+          <View style={styles.row}>
+            <MaterialIcons name="attach-money" size={20} color="#22C55E" />
+            <Text style={styles.salaryText}>{job.salary}</Text>
+          </View>
+          <View style={styles.row}>
+            <FontAwesome name="language" size={18} color="#6366F1" />
+            <Text style={styles.jlptText}>
+              {t("job.japaneseLevelShort")} {job.japaneseLevel}
+            </Text>
           </View>
 
           {/* Work Days */}
@@ -107,19 +109,19 @@ export default function CompactJobCard({
             {mode === "chosen" && onRefuse && (
               <TouchableOpacity onPress={onRefuse} style={styles.refuseBtn}>
                 <FontAwesome name="times-circle" size={20} color="#dc2626" />
-                <Text style={styles.refuseText}>Refuse</Text>
+                <Text style={styles.refuseText}>{t("job.refuse")}</Text>
               </TouchableOpacity>
             )}
             {mode === "refused" && onChoose && (
               <TouchableOpacity onPress={onChoose} style={styles.chooseBtn}>
                 <FontAwesome name="check-circle" size={20} color="#16a34a" />
-                <Text style={styles.chooseText}>Choose</Text>
+                <Text style={styles.chooseText}>{t("job.choose")}</Text>
               </TouchableOpacity>
             )}
             {onDelete && (
               <TouchableOpacity onPress={onDelete} style={styles.deleteBtn}>
                 <MaterialIcons name="delete" size={20} color="#6b7280" />
-                <Text style={styles.deleteText}>Delete</Text>
+                <Text style={styles.deleteText}>{t("job.delete")}</Text>
               </TouchableOpacity>
             )}
           </View>

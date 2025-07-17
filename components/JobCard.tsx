@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Entypo,
   FontAwesome,
@@ -6,7 +7,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, View, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 function getJobIcon(type: string) {
   switch (type) {
@@ -64,15 +65,14 @@ interface JobCardProps {
 }
 
 export default function JobCard({ job }: JobCardProps) {
+  const { t } = useLanguage();
   const { icon, bgStyle } = getJobIcon(job.type);
 
   return (
     <View style={styles.card}>
       {/* Top Icon */}
       <View style={styles.iconWrapper}>
-        <View style={[bgStyle, styles.iconCircle]}>
-          {icon}
-        </View>
+        <View style={[bgStyle, styles.iconCircle]}>{icon}</View>
       </View>
 
       {/* Title */}
@@ -94,30 +94,30 @@ export default function JobCard({ job }: JobCardProps) {
         style={styles.salaryBox}
       >
         <Text style={styles.salaryText}>{job.salary}</Text>
-        <Text style={styles.perDay}>per day</Text>
+        <Text style={styles.perDay}>{t("job.perDay")}</Text>
       </LinearGradient>
 
       {/* Info */}
       <View style={styles.infoWrapper}>
         <View style={styles.infoItem}>
           <MaterialIcons name="menu-book" size={20} color="#6366f1" />
-          <Text style={styles.infoLabel}>Japanese Level:</Text>
+          <Text style={styles.infoLabel}>{t("job.japaneseLevel")}</Text>
           <Text style={styles.infoValue}>{job.japaneseLevel}</Text>
         </View>
         <View style={styles.infoItem}>
           <MaterialIcons name="access-time" size={20} color="#6366f1" />
-          <Text style={styles.infoLabel}>Commute:</Text>
+          <Text style={styles.infoLabel}>{t("job.commute")}</Text>
           <Text style={styles.infoValue}>{job.commuteTime}</Text>
         </View>
         <View style={styles.infoItem}>
           <Entypo name="location-pin" size={20} color="#6366f1" />
-          <Text style={styles.infoLabel}>Location:</Text>
+          <Text style={styles.infoLabel}>{t("job.location")}</Text>
           <Text style={styles.infoValue}>{job.location}</Text>
         </View>
       </View>
 
       {/* Days */}
-      <Text style={styles.daysLabel}>Available Days</Text>
+      <Text style={styles.daysLabel}>{t("job.availableDays")}</Text>
       <View style={styles.daysWrapper}>
         {job.workDays.map((d: string, i: number) => (
           <Text key={i} style={styles.dayItem}>
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
     borderColor: "#d1d5db",
     borderWidth: 1,
-    height: 500, 
+    height: 500,
     paddingVertical: 10,
   },
   iconWrapper: {

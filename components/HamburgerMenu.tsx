@@ -14,6 +14,7 @@ import {
 // import { useLanguage } from "@/contexts/LanguageContext";
 // import { useTheme } from "@/contexts/ThemeContext";
 // import { useUser } from "@/contexts/UserContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { LinearGradient } from "expo-linear-gradient";
 import { Globe, LogOut, Settings, User, X } from "lucide-react-native";
 
@@ -26,11 +27,7 @@ interface HamburgerMenuProps {
 
 export function HamburgerMenu({ visible, onClose }: HamburgerMenuProps) {
   const router = useRouter();
-  const { t, language, setLanguage } = {
-    t: (x: string) => x,
-    language: "en",
-    setLanguage: () => {},
-  };
+  const { t, language, setLanguage } = useLanguage();
   const { user }: { user: any } = { user: null };
   const { isDarkMode } = { isDarkMode: false };
 
@@ -262,8 +259,6 @@ export function HamburgerMenu({ visible, onClose }: HamburgerMenuProps) {
             >
               Language
             </Text>
-            {/* Language selection is disabled for now to avoid linter errors */}
-            {/*
             {languages.map((lang) => (
               <TouchableOpacity
                 key={lang.code}
@@ -274,7 +269,7 @@ export function HamburgerMenu({ visible, onClose }: HamburgerMenuProps) {
                   isDarkMode &&
                     language === lang.code && { borderColor: "#a5b4fc" },
                 ]}
-                onPress={() => setLanguage()}
+                onPress={() => setLanguage(lang.code)}
               >
                 <Text style={styles.languageFlag}>{lang.flag}</Text>
                 <Text
@@ -307,7 +302,6 @@ export function HamburgerMenu({ visible, onClose }: HamburgerMenuProps) {
                 )}
               </TouchableOpacity>
             ))}
-            */}
           </View>
 
           <View style={styles.bottomSection}>

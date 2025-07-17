@@ -1,16 +1,18 @@
+import { HamburgerMenu } from "@/components/HamburgerMenu"; // <-- import qiling
+import { useLanguage } from "@/contexts/LanguageContext";
 import { FontAwesome } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { HamburgerMenu } from "@/components/HamburgerMenu"; // <-- import qiling
 
 function CustomHeader({ onMenuPress }: { onMenuPress: () => void }) {
+  const { t } = useLanguage();
   return (
     <View className="flex-row justify-between items-center px-4 py-8 bg-white border-b border-gray-200">
       <TouchableOpacity className="p-2" onPress={onMenuPress}>
         <FontAwesome name="bars" size={24} color="#007AFF" />
       </TouchableOpacity>
-      <Text className="text-2xl font-bold text-gray-800">HyMatch</Text>
+      <Text className="text-2xl font-bold text-gray-800">{t("app.title")}</Text>
       <TouchableOpacity className="p-2">
         <FontAwesome name="sliders" size={24} color="#007AFF" />
       </TouchableOpacity>
@@ -20,6 +22,7 @@ function CustomHeader({ onMenuPress }: { onMenuPress: () => void }) {
 
 export default function TabsLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <>
@@ -47,7 +50,7 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="refused"
           options={{
-            title: "Refused",
+            title: t("tabs.refused"),
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="times-circle" size={size} color={color} />
             ),
@@ -56,7 +59,7 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="jobs"
           options={{
-            title: "Jobs",
+            title: t("tabs.jobs"),
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="briefcase" size={size} color={color} />
             ),
@@ -65,7 +68,7 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="chosen"
           options={{
-            title: "Chosen",
+            title: t("tabs.chosen"),
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="check-circle" size={size} color={color} />
             ),
