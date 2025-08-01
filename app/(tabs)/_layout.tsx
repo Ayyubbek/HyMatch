@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Heart, Briefcase, X } from 'lucide-react-native';
+import { RotateCcw, Briefcase, Heart } from 'lucide-react-native';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -14,9 +14,9 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: '#D4A574',
           borderTopWidth: 0,
-          paddingBottom: 10,
-          paddingTop: 10,
-          height: 80,
+          paddingBottom: 15,
+          paddingTop: 15,
+          height: 70,
           shadowColor: '#000',
           shadowOffset: {
             width: 0,
@@ -26,42 +26,38 @@ export default function TabLayout() {
           shadowRadius: 6,
           elevation: 6,
         },
-        tabBarLabelStyle: {
-          fontFamily: 'Inter-Medium',
-          fontSize: 11,
-          marginTop: 3,
-        },
+        tabBarShowLabel: false,
         tabBarActiveTintColor: '#FFFFFF',
         tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.7)',
         tabBarIconStyle: {
-          marginBottom: 1,
+          marginBottom: 0,
         },
       }}
     >
       <Tabs.Screen
         name="refused"
         options={{
-          title: t('tabs.refused'),
+          title: '',
           tabBarIcon: ({ size, color }) => (
-            <X size={size - 2} color={color} strokeWidth={2.5} />
+            <RotateCcw size={size + 2} color={color} strokeWidth={2.5} />
           ),
         }}
       />
       <Tabs.Screen
         name="index"
         options={{
-          title: t('tabs.jobs'),
+          title: '',
           tabBarIcon: ({ size, color }) => (
-            <Briefcase size={size - 2} color={color} strokeWidth={2.5} />
+            <Briefcase size={size + 2} color={color} strokeWidth={2.5} />
           ),
         }}
       />
       <Tabs.Screen
         name="chosen"
         options={{
-          title: t('tabs.chosen'),
+          title: '',
           tabBarIcon: ({ size, color }) => (
-            <Heart size={size - 2} color={color} strokeWidth={2.5} />
+            <Heart size={size + 2} color={color} strokeWidth={2.5} />
           ),
         }}
       />
