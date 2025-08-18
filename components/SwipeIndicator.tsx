@@ -46,21 +46,21 @@ const styles = StyleSheet.create({
     top: '45%',
     zIndex: 100,
   },
-  // Choose indikator CHAPDA ko‘rinadi
+  // Choose indicator views on right side
   leftContainer: {
     left: 20,
     transform: [{ translateY: -60 }],
   },
-  // Refusal indikator O‘NGda ko‘rinadi
+  // Refusal indicator views on left side
   rightContainer: {
     right: 20,
     transform: [{ translateY: -60 }],
   },
   circle: {
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    borderWidth: 6,
+    width: 180,
+    height: 180,
+    borderRadius: 100,
+    borderWidth: 9,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     borderColor: '#E53935',
   },
   text: {
-    fontSize: 28,
+    fontSize: 34,
     fontWeight: 'bold',
     fontFamily: 'Inter-Bold',
     shadowColor: '#000',
