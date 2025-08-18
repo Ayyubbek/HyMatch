@@ -1450,7 +1450,7 @@ const styles = StyleSheet.create({
     marginRight: 3,
   },
   dayText: {
-    fontSize: 9,
+    fontSize: 12,
     color: '#374151',
     textAlign: 'center',
     lineHeight: 12,
