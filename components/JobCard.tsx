@@ -104,13 +104,24 @@ export function JobCard({ job }: JobCardProps) {
     setModalVisible(true);
   };
 
+  const salaryParts = job.salary.split(/[–-]/);
+  const salaryDisplay =
+    salaryParts.length === 2
+      ? `¥${parseInt(salaryParts[0], 10).toLocaleString()}–¥${parseInt(
+          salaryParts[1],
+          10
+        ).toLocaleString()}`
+      : job.salary;
+
   const infoTexts = {
-    title: `${t('job.position')}: ${job.title}`,
-    type: `${t('job.type')}: ${job.type}`,
-    salary: `${t('job.salary')}: ${job.salary}`,
+    title: `${t('job.position')}: ${t(job.title)}`,
+    type: `${t('job.type')}: ${
+      t(`jobType.${job.type.toLowerCase()}`) || job.type
+    }`,
+    salary: `${t('job.salary')}: ${salaryDisplay}`,
     language: `${t('job.languageLevel')}: ${job.japaneseLevel}`,
-    commute: `${t('job.commuteTime')}: ${job.commuteTimeHome}`,
-    location: `${t('job.location')}: ${job.location}`,
+    commute: `${t('job.commuteTime')}: ${job.commuteTimeHome} ${t('time.min')}`,
+    location: `${t('job.location')}: ${t(job.location)}`,
     schedule: t('job.schedule'),
     highlights: t('job.highlights'),
   };
@@ -129,7 +140,7 @@ export function JobCard({ job }: JobCardProps) {
                 infoText={infoTexts.title}
                 onPress={() => openModal(t('job.position'), infoTexts.title)}
               />
-              <Text style={styles.title}>{job.title}</Text>
+              <Text style={styles.title}>{t(job.title)}</Text>
             </View>
           </View>
 
@@ -168,7 +179,13 @@ export function JobCard({ job }: JobCardProps) {
                 infoText={infoTexts.salary}
                 onPress={() => openModal(t('job.salary'), infoTexts.salary)}
               />
-              <Text style={styles.infoText}>{job.salary}</Text>
+              <Text style={styles.infoText}>{`¥${parseInt(
+                job.salary.split(/[–-]/)[0],
+                10
+              ).toLocaleString()}–¥${parseInt(
+                job.salary.split(/[–-]/)[1],
+                10
+              ).toLocaleString()}`}</Text>
             </View>
             <View style={styles.verticalDivider} />
             <View style={styles.rowCenterFull}>
@@ -197,7 +214,9 @@ export function JobCard({ job }: JobCardProps) {
                   openModal(t('job.commuteTime'), infoTexts.commute)
                 }
               />
-              <Text style={styles.infoText}>{job.commuteTimeHome}</Text>
+              <Text style={styles.infoText}>{`${job.commuteTimeHome} ${t(
+                'time.min'
+              )}`}</Text>
             </View>
             <View style={styles.verticalDivider} />
             <View style={styles.rowCenterFull}>
@@ -208,7 +227,7 @@ export function JobCard({ job }: JobCardProps) {
                 infoText={infoTexts.location}
                 onPress={() => openModal(t('job.location'), infoTexts.location)}
               />
-              <Text style={styles.infoText}>{job.location}</Text>
+              <Text style={styles.infoText}>{t(job.location)}</Text>
             </View>
           </View>
 

@@ -104,7 +104,7 @@ export function JobProvider({ children }: { children: ReactNode }) {
   };
 
   const parseWage = (salary: string): number => {
-    // Expect formats like '¥1,000–¥2,000' → take upper bound as numeric 2000
+    // Expect formats like '1000–2000' (no currency) → take upper bound
     const match = salary.match(/([0-9][0-9,]*)\s*[–-]\s*([0-9][0-9,]*)/);
     if (match) {
       const upper = parseInt(match[2].replace(/,/g, ''), 10);
