@@ -17,6 +17,7 @@ import {
   faUser,
   faCalendarAlt,
   faGlobeAsia,
+  faVenusMars,
   faMars,
   faVenus,
   faGenderless,
@@ -567,6 +568,8 @@ export default function ProfileScreen() {
           }
         />
         <GenderSelector
+          icon={faVenusMars}
+          placeholder={t('profile.gender')}
           selected={formData.gender}
           onSelect={(gender: string) => updateFormData('gender', gender)}
           error={errors.gender}
@@ -1017,6 +1020,7 @@ function DropdownInputRow({
 }
 
 function GenderSelector({
+  icon = faVenusMars,
   selected,
   onSelect,
   error = '',
@@ -1032,8 +1036,8 @@ function GenderSelector({
     <View style={styles.inputContainer}>
       <View style={styles.inputRow}>
         <IconWithInfo
-          icon={faGenderless}
-          size={16}
+          icon={icon}
+          size={24}
           color="#555"
           infoText={infoText}
           onPress={onInfoPress}

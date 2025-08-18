@@ -4,6 +4,7 @@ import { Job } from '@/types/Job';
 import { JobTypeIcon } from './JobTypeIcon';
 import { WorkDayBadge } from './WorkDayBadge';
 import { Clock, MapPin, BookOpen } from 'lucide-react-native';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface JobListItemProps {
   job: Job;
@@ -18,6 +19,7 @@ export function JobListItem({
   variant = 'card',
   compact = false,
 }: JobListItemProps) {
+  const { t } = useLanguage();
   const containerStyle = [
     variant === 'card' ? styles.containerCard : styles.containerFlat,
   ];
@@ -37,7 +39,7 @@ export function JobListItem({
         <JobTypeIcon type={job.type} size={jobTypeIconSize} />
         <View style={styles.titleContainer}>
           <Text style={titleStyle} numberOfLines={2}>
-            {job.title}
+            {t(job.title)}
           </Text>
           <Text style={styles.salary}>{job.salary}</Text>
         </View>
@@ -50,12 +52,14 @@ export function JobListItem({
         </View>
         <View style={styles.infoRow}>
           <Clock size={infoIconSize} color={iconColor} />
-          <Text style={infoTextStyle}>{job.commuteTimeHome}</Text>
+          <Text style={infoTextStyle}>{`${job.commuteTimeHome} ${t(
+            'time.min'
+          )}`}</Text>
         </View>
         <View style={styles.infoRow}>
           <MapPin size={infoIconSize} color={iconColor} />
           <Text style={infoTextStyle} numberOfLines={1}>
-            {job.location}
+            {t(job.location)}
           </Text>
         </View>
       </View>
