@@ -24,6 +24,7 @@ import {
   Star,
   Globe,
   Check,
+  RotateCcw,
 } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
@@ -221,13 +222,22 @@ export default function FilterModalRight() {
               <Menu size={20} color="#333" />
               <Text style={styles.headerTitle}>{t('filter.sheet.title')}</Text>
             </View>
-            <TouchableOpacity
-              onPress={handleClose}
-              style={styles.closeButton}
-              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            >
-              <X size={24} color="#666" />
-            </TouchableOpacity>
+            <View style={styles.headerRight}>
+              <TouchableOpacity
+                onPress={handleReset}
+                style={styles.closeButton}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <RotateCcw size={22} color="#666" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleClose}
+                style={styles.closeButton}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <X size={24} color="#666" />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <ScrollView
@@ -782,6 +792,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-SemiBold',
     color: '#333',
     marginLeft: 8,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   closeButton: {
     padding: 4,
