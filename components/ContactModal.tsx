@@ -25,7 +25,7 @@ export const ContactModal = ({ visible, onClose }: ContactModalProps) => {
     try {
       await Linking.openURL('mailto:support@hymatch.jp');
     } catch (error) {
-      Alert.alert('Error', 'Could not open email app');
+      Alert.alert(t('error.emailOpen.title'), t('error.emailOpen.message'));
     }
   };
 
@@ -33,7 +33,7 @@ export const ContactModal = ({ visible, onClose }: ContactModalProps) => {
     try {
       await Linking.openURL('tel:+81-3-1234-5678');
     } catch (error) {
-      Alert.alert('Error', 'Could not initiate phone call');
+      Alert.alert(t('error.phoneCall.title'), t('error.phoneCall.message'));
     }
   };
 
@@ -56,7 +56,7 @@ export const ContactModal = ({ visible, onClose }: ContactModalProps) => {
               </View>
               <View style={styles.textContainer}>
                 <Text style={styles.label}>{t('contact.email')}</Text>
-                <Text style={styles.value}>support@hymatch.jp</Text>
+                <Text style={styles.value}>{t('contact.emailAddress')}</Text>
               </View>
             </TouchableOpacity>
 
@@ -66,7 +66,7 @@ export const ContactModal = ({ visible, onClose }: ContactModalProps) => {
               </View>
               <View style={styles.textContainer}>
                 <Text style={styles.label}>{t('contact.phone')}</Text>
-                <Text style={styles.value}>+81-3-1234-5678</Text>
+                <Text style={styles.value}>{t('contact.phoneNumber')}</Text>
               </View>
             </TouchableOpacity>
           </View>

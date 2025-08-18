@@ -9,6 +9,7 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface InfoModalProps {
   visible: boolean;
@@ -17,7 +18,13 @@ interface InfoModalProps {
   content: string;
 }
 
-export const InfoModal = ({ visible, onClose, title, content }: InfoModalProps) => {
+export const InfoModal = ({
+  visible,
+  onClose,
+  title,
+  content,
+}: InfoModalProps) => {
+  const { t } = useLanguage();
   return (
     <Modal transparent visible={visible} animationType="fade">
       <View style={styles.backdropContainer}>
@@ -27,7 +34,7 @@ export const InfoModal = ({ visible, onClose, title, content }: InfoModalProps) 
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.content}>{content}</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-              <Text style={styles.closeText}>Close</Text>
+              <Text style={styles.closeText}>{t('common.close')}</Text>
             </TouchableOpacity>
           </ScrollView>
         </View>

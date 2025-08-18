@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { JobCard } from './JobCard';
 import { SwipeableCard } from './SwipeableCard';
 import { useJobs } from '@/contexts/JobContext';
@@ -10,6 +11,7 @@ const { width, height } = Dimensions.get('window');
 export function SwipeCards() {
   const { addApplication, applications, getFilteredSortedJobs } = useJobs();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const { t } = useLanguage();
 
   // Filter out jobs that have already been swiped
   const appliedJobIds = applications.map((app) => app.jobId);
@@ -42,15 +44,15 @@ export function SwipeCards() {
         <JobCard
           job={{
             id: 'empty',
-            title: 'No more jobs available',
+            title: t('jobs.empty.title'),
             type: 'office',
             salary: '¥0',
             japaneseLevel: 'N5',
             commuteTimeHome: '0 min',
             commuteTimeSchool: '0 min',
-            location: 'Everywhere',
+            location: t('jobs.empty.location'),
             workDays: [],
-            highlights: ['Check back later for new opportunities!'],
+            highlights: [t('jobs.empty.subtitle')],
           }}
         />
       </View>

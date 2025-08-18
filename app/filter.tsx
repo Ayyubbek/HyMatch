@@ -90,34 +90,34 @@ export default function FilterModalRight() {
 
   // Mock option lists per category
   const WAGE_OPTIONS: { label: string; value: SortOption }[] = [
-    { label: 'High salary', value: 'wageHigh' },
-    { label: 'Average salary', value: 'wageAverage' },
-    { label: 'Low salary', value: 'wageLow' },
-    { label: 'Not sorting', value: 'date' },
+    { label: t('filter.sort.wageHigh'), value: 'wageHigh' },
+    { label: t('filter.sort.wageAverage'), value: 'wageAverage' },
+    { label: t('filter.sort.wageLow'), value: 'wageLow' },
+    { label: t('filter.sort.none'), value: 'date' },
   ];
   const COMMUTE_HOME_OPTIONS: { label: string; value: SortOption }[] = [
-    { label: 'Shortest time', value: 'commuteHomeShort' },
-    { label: 'Average time', value: 'commuteHomeAverage' },
-    { label: 'Longest time', value: 'commuteHomeLong' },
-    { label: 'Not sorting', value: 'date' },
+    { label: t('filter.sort.shortest'), value: 'commuteHomeShort' },
+    { label: t('filter.sort.average'), value: 'commuteHomeAverage' },
+    { label: t('filter.sort.longest'), value: 'commuteHomeLong' },
+    { label: t('filter.sort.none'), value: 'date' },
   ];
   const COMMUTE_SCHOOL_OPTIONS: { label: string; value: SortOption }[] = [
-    { label: 'Shortest time', value: 'commuteSchoolShort' },
-    { label: 'Average time', value: 'commuteSchoolAverage' },
-    { label: 'Longest time', value: 'commuteSchoolLong' },
-    { label: 'Not sorting', value: 'date' },
+    { label: t('filter.sort.shortest'), value: 'commuteSchoolShort' },
+    { label: t('filter.sort.average'), value: 'commuteSchoolAverage' },
+    { label: t('filter.sort.longest'), value: 'commuteSchoolLong' },
+    { label: t('filter.sort.none'), value: 'date' },
   ];
 
   // Mock filter option lists per category
   const JOB_TYPE_OPTIONS: { label: string; value: string }[] = [
-    { label: 'Warehouse', value: 'Warehouse' },
-    { label: 'Cooking', value: 'Cooking' },
-    { label: 'Delivery', value: 'Delivery' },
-    { label: 'Office', value: 'Office' },
-    { label: 'Retail', value: 'Retail' },
-    { label: 'Cleaning', value: 'Cleaning' },
-    { label: 'Construction', value: 'Construction' },
-    { label: 'Restaurant', value: 'Restaurant' },
+    { label: t('jobType.warehouse'), value: 'Warehouse' },
+    { label: t('jobType.cooking'), value: 'Cooking' },
+    { label: t('jobType.delivery'), value: 'Delivery' },
+    { label: t('jobType.office'), value: 'Office' },
+    { label: t('jobType.retail'), value: 'Retail' },
+    { label: t('jobType.cleaning'), value: 'Cleaning' },
+    { label: t('jobType.construction'), value: 'Construction' },
+    { label: t('jobType.restaurant'), value: 'Restaurant' },
   ];
   const JAPANESE_LEVEL_OPTIONS: { label: string; value: string }[] = [
     { label: 'N5', value: 'N5' },
@@ -127,43 +127,58 @@ export default function FilterModalRight() {
     { label: 'N1', value: 'N1' },
   ];
   const WAGE_RANGE_OPTIONS: { label: string; value: [number, number] }[] = [
-    { label: '¥1,000 - ¥1,500', value: [1000, 1500] },
-    { label: '¥1,500 - ¥2,000', value: [1500, 2000] },
-    { label: '¥2,000 - ¥2,500', value: [2000, 2500] },
-    { label: '¥2,500 - ¥3,000', value: [2500, 3000] },
+    { label: t('wage.range1'), value: [1000, 1500] },
+    { label: t('wage.range2'), value: [1500, 2000] },
+    { label: t('wage.range3'), value: [2000, 2500] },
+    { label: t('wage.range4'), value: [2500, 3000] },
   ];
   const WORK_DAYS_OPTIONS: { label: string; value: string }[] = [
-    { label: 'Monday', value: 'Mon' },
-    { label: 'Tuesday', value: 'Tue' },
-    { label: 'Wednesday', value: 'Wed' },
-    { label: 'Thursday', value: 'Thu' },
-    { label: 'Friday', value: 'Fri' },
-    { label: 'Saturday', value: 'Sat' },
-    { label: 'Sunday', value: 'Sun' },
+    { label: t('weekday.mon'), value: 'Mon' },
+    { label: t('weekday.tue'), value: 'Tue' },
+    { label: t('weekday.wed'), value: 'Wed' },
+    { label: t('weekday.thu'), value: 'Thu' },
+    { label: t('weekday.fri'), value: 'Fri' },
+    { label: t('weekday.sat'), value: 'Sat' },
+    { label: t('weekday.sun'), value: 'Sun' },
   ];
   const IMPORTANT_OPTIONS: { label: string; value: string }[] = [
-    { label: 'Meals included', value: 'Meals included' },
-    { label: 'Transportation provided', value: 'Transportation provided' },
-    { label: 'Flexible hours', value: 'Flexible hours' },
-    { label: 'Free meals', value: 'Free meals' },
-    { label: 'Learn Japanese cooking', value: 'Learn Japanese cooking' },
-    { label: 'Friendly staff', value: 'Friendly staff' },
-    { label: 'Bicycle provided', value: 'Bicycle provided' },
-    { label: 'Tips included', value: 'Tips included' },
-    { label: 'Flexible schedule', value: 'Flexible schedule' },
-    { label: 'Air conditioned', value: 'Air conditioned' },
-    { label: 'Computer skills training', value: 'Computer skills training' },
-    { label: 'Career growth', value: 'Career growth' },
-    { label: 'Employee discount', value: 'Employee discount' },
-    { label: 'Customer service training', value: 'Customer service training' },
-    { label: 'Team events', value: 'Team events' },
-    { label: 'Uniform provided', value: 'Uniform provided' },
-    { label: 'Quiet environment', value: 'Quiet environment' },
-    { label: 'Bonus pay', value: 'Bonus pay' },
-    { label: 'Safety training provided', value: 'Safety training provided' },
-    { label: 'High pay', value: 'High pay' },
-    { label: 'Skill development', value: 'Skill development' },
-    { label: 'Language practice', value: 'Language practice' },
+    { label: t('highlight.mealsIncluded'), value: 'Meals included' },
+    {
+      label: t('highlight.transportationProvided'),
+      value: 'Transportation provided',
+    },
+    { label: t('highlight.flexibleHours'), value: 'Flexible hours' },
+    { label: t('highlight.freeMeals'), value: 'Free meals' },
+    {
+      label: t('highlight.learnJapaneseCooking'),
+      value: 'Learn Japanese cooking',
+    },
+    { label: t('highlight.friendlyStaff'), value: 'Friendly staff' },
+    { label: t('highlight.bicycleProvided'), value: 'Bicycle provided' },
+    { label: t('highlight.tipsIncluded'), value: 'Tips included' },
+    { label: t('highlight.flexibleSchedule'), value: 'Flexible schedule' },
+    { label: t('highlight.airConditioned'), value: 'Air conditioned' },
+    {
+      label: t('highlight.computerSkillsTraining'),
+      value: 'Computer skills training',
+    },
+    { label: t('highlight.careerGrowth'), value: 'Career growth' },
+    { label: t('highlight.employeeDiscount'), value: 'Employee discount' },
+    {
+      label: t('highlight.customerServiceTraining'),
+      value: 'Customer service training',
+    },
+    { label: t('highlight.teamEvents'), value: 'Team events' },
+    { label: t('highlight.uniformProvided'), value: 'Uniform provided' },
+    { label: t('highlight.quietEnvironment'), value: 'Quiet environment' },
+    { label: t('highlight.bonusPay'), value: 'Bonus pay' },
+    {
+      label: t('highlight.safetyTrainingProvided'),
+      value: 'Safety training provided',
+    },
+    { label: t('highlight.highPay'), value: 'High pay' },
+    { label: t('highlight.skillDevelopment'), value: 'Skill development' },
+    { label: t('highlight.languagePractice'), value: 'Language practice' },
   ];
 
   // Helpers for active state of circles
@@ -520,7 +535,7 @@ export default function FilterModalRight() {
             </TouchableOpacity>
 
             <Text style={styles.centerTitle}>{sortModal.title}</Text>
-            <Text style={styles.centerDesc}>Choose an option</Text>
+            <Text style={styles.centerDesc}>{t('common.chooseOne')}</Text>
             <View style={styles.optionList}>
               {(sortModal.key === 'wage'
                 ? WAGE_OPTIONS
@@ -565,8 +580,8 @@ export default function FilterModalRight() {
             <Text style={styles.centerTitle}>{filterModal.title}</Text>
             <Text style={styles.centerDesc}>
               {['important', 'commute'].includes(filterModal.key)
-                ? 'Choose multiple options'
-                : 'Choose an option'}
+                ? t('common.chooseMany')
+                : t('common.chooseOne')}
             </Text>
             {['important', 'japanese', 'commute'].includes(filterModal.key) ? (
               <ScrollView
@@ -714,7 +729,7 @@ export default function FilterModalRight() {
                     setFilterModal({ ...filterModal, visible: false })
                   }
                 >
-                  <Text style={styles.modalActionText}>Done</Text>
+                  <Text style={styles.modalActionText}>{t('common.done')}</Text>
                 </TouchableOpacity>
               </View>
             )}

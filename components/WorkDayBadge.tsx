@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface WorkDayBadgeProps {
   day: string;
@@ -8,6 +9,7 @@ interface WorkDayBadgeProps {
 }
 
 export function WorkDayBadge({ day, size = 'normal' }: WorkDayBadgeProps) {
+  const { t } = useLanguage();
   const isWeekend = day === 'Sat' || day === 'Sun';
   const isSmall = size === 'small';
 
@@ -39,7 +41,18 @@ export function WorkDayBadge({ day, size = 'normal' }: WorkDayBadgeProps) {
           { color: getTextColor() },
         ]}
       >
-        {day}
+        {(() => {
+          const map: Record<string, string> = {
+            Mon: t('weekday.short.mon'),
+            Tue: t('weekday.short.tue'),
+            Wed: t('weekday.short.wed'),
+            Thu: t('weekday.short.thu'),
+            Fri: t('weekday.short.fri'),
+            Sat: t('weekday.short.sat'),
+            Sun: t('weekday.short.sun'),
+          };
+          return map[day] || day;
+        })()}
       </Text>
     </LinearGradient>
   );

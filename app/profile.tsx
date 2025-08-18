@@ -43,10 +43,10 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { printToFileAsync } from 'expo-print';
 
-// Mock data for dropdowns
+// Mock data for dropdowns (labels localized at render time)
 const mockData = {
   ages: Array.from({ length: 83 }, (_, i) => ({
-    label: `${i + 18}歳`,
+    label: String(i + 18),
     value: i + 18,
   })),
   countries: [
@@ -56,30 +56,30 @@ const mockData = {
     { label: 'China', value: 'china' },
   ],
   transportation: [
-    { label: '電車', value: 'train' },
-    { label: 'バス', value: 'bus' },
-    { label: '車', value: 'car' },
-    { label: '自転車', value: 'bicycle' },
-    { label: '徒歩', value: 'walk' },
+    { label: 'train', value: 'train' },
+    { label: 'bus', value: 'bus' },
+    { label: 'car', value: 'car' },
+    { label: 'bicycle', value: 'bicycle' },
+    { label: 'walk', value: 'walk' },
   ],
   walkingTime: [
-    { label: '1-5分', value: '1-5' },
-    { label: '6-10分', value: '6-10' },
-    { label: '11-15分', value: '11-15' },
-    { label: '16-20分', value: '16-20' },
-    { label: '21分以上', value: '21+' },
+    { label: '1-5', value: '1-5' },
+    { label: '6-10', value: '6-10' },
+    { label: '11-15', value: '11-15' },
+    { label: '16-20', value: '16-20' },
+    { label: '21+', value: '21+' },
   ],
   prefectures: [
-    { label: '東京都', value: 'tokyo' },
-    { label: '大阪府', value: 'osaka' },
-    { label: '神奈川県', value: 'kanagawa' },
-    { label: '愛知県', value: 'aichi' },
+    { label: 'tokyo', value: 'tokyo' },
+    { label: 'osaka', value: 'osaka' },
+    { label: 'kanagawa', value: 'kanagawa' },
+    { label: 'aichi', value: 'aichi' },
   ],
   cities: [
-    { label: '新宿区', value: 'shinjuku' },
-    { label: '渋谷区', value: 'shibuya' },
-    { label: '港区', value: 'minato' },
-    { label: '中央区', value: 'chuo' },
+    { label: 'shinjuku', value: 'shinjuku' },
+    { label: 'shibuya', value: 'shibuya' },
+    { label: 'minato', value: 'minato' },
+    { label: 'chuo', value: 'chuo' },
   ],
   areas: [
     { label: '1-1-1', value: '1-1-1' },
@@ -87,100 +87,81 @@ const mockData = {
     { label: '5-6-7', value: '5-6-7' },
   ],
   timeSlots: [
-    { label: '9:00-12:00', value: 'morning' },
-    { label: '12:00-17:00', value: 'afternoon' },
-    { label: '17:00-21:00', value: 'evening' },
-    { label: '21:00-24:00', value: 'night' },
+    { label: 'morning', value: 'morning' },
+    { label: 'afternoon', value: 'afternoon' },
+    { label: 'evening', value: 'evening' },
+    { label: 'night', value: 'night' },
   ],
   ratings: [
-    { label: '★☆☆☆☆', value: 1 },
-    { label: '★★☆☆☆', value: 2 },
-    { label: '★★★☆☆', value: 3 },
-    { label: '★★★★☆', value: 4 },
-    { label: '★★★★★', value: 5 },
+    { label: '1', value: 1 },
+    { label: '2', value: 2 },
+    { label: '3', value: 3 },
+    { label: '4', value: 4 },
+    { label: '5', value: 5 },
   ],
   remarkTypes: [
-    { label: '一般', value: 'general' },
-    { label: '重要', value: 'important' },
-    { label: '緊急', value: 'urgent' },
+    { label: 'general', value: 'general' },
+    { label: 'important', value: 'important' },
+    { label: 'urgent', value: 'urgent' },
   ],
 };
 
 // Information texts for each field
 const infoTexts = {
-  name: '氏名\n登録者の正式な氏名を入力してください。姓名の順番で記入し、漢字・ひらがな・カタカナで記入可能です。',
-  age: '年齢\n現在の年齢を選択してください。18歳以上100歳以下の範囲で選択可能です。年齢によって対象となる求人が変わる場合があります。',
-  country:
-    '国籍\n出身国または現在の国籍を選択してください。ビザの種類や就労可能な業種に影響する重要な情報です。',
-  gender:
-    '性別\n性別を選択してください。男性、女性、その他から選択可能です。一部の求人では性別による制限がある場合があります。',
-  transportation1:
-    '交通手段1\n主要な通勤手段を選択してください。電車、バス、車、自転車、徒歩から選択可能です。',
-  walkingTime1:
-    '徒歩分数1\n最寄り駅や停留所から職場までの徒歩時間を選択してください。通勤時間の計算に使用されます。',
-  transportation2:
-    '交通手段2\n副次的な通勤手段がある場合に選択してください。複数の通勤ルートがある場合に有効です。',
-  walkingTime2:
-    '徒歩分数2\n副次的な交通手段を利用した場合の徒歩時間を選択してください。',
-  postalCode:
-    '郵便番号\n現住所の7桁の郵便番号を入力してください。ハイフンなしで入力してください。住所の自動入力機能が利用できます。',
-  prefecture:
-    '都道府県\n現住所の都道府県を選択してください。郵便番号から自動入力することも可能です。',
-  city: '市区町村\n現住所の市区町村を選択してください。詳細な住所情報の一部として使用されます。',
-  area: '町名・番地\n現住所の町名や番地を選択してください。プライバシーに配慮した範囲で入力してください。',
-  address:
-    '住所\n現住所の詳細を入力してください。通勤圏内の求人検索や緊急時の連絡先として使用されます。',
-  phone:
-    '電話番号\n連絡可能な電話番号を入力してください。ハイフンなしで10-11桁の番号を入力してください。',
-  email:
-    'メールアドレス\n連絡用のメールアドレスを入力してください。求人情報の通知や重要な連絡に使用されます。',
-  expiration:
-    '有効期限\nプロフィール情報の有効期限を設定してください。定期的な更新が推奨されます。',
-  qualificationDate:
-    '資格取得予定日\n取得予定の資格がある場合、その予定日を選択してください。スキルアップの計画に使用されます。',
-  remarkType:
-    '備考種別\n備考の重要度を選択してください。一般、重要、緊急から選択可能です。',
-  selectedDays:
-    '勤務可能曜日\n勤務可能な曜日を選択してください。複数選択可能です。求人とのマッチングに使用されます。',
-  timeSlot:
-    '勤務可能時間帯\n勤務可能な時間帯を選択してください。ライフスタイルに合わせた求人検索が可能になります。',
-  rating:
-    '評価・希望レベル\n希望する職場環境や条件のレベルを5段階で評価してください。求人マッチングの精度向上に使用されます。',
-  remark1:
-    '備考1\n追加の情報や特記事項がある場合に入力してください。自由記述欄です。',
-  remark2:
-    '備考2\n補足情報や追加の備考がある場合に入力してください。自由記述欄です。',
+  name: 'profile.info.name',
+  age: 'profile.info.age',
+  country: 'profile.info.country',
+  gender: 'profile.info.gender',
+  transportation1: 'profile.info.transportation1',
+  walkingTime1: 'profile.info.walkingTime1',
+  transportation2: 'profile.info.transportation2',
+  walkingTime2: 'profile.info.walkingTime2',
+  postalCode: 'profile.info.postalCode',
+  prefecture: 'profile.info.prefecture',
+  city: 'profile.info.city',
+  area: 'profile.info.area',
+  address: 'profile.info.address',
+  phone: 'profile.info.phone',
+  email: 'profile.info.email',
+  expiration: 'profile.info.expiration',
+  qualificationDate: 'profile.info.qualificationDate',
+  remarkType: 'profile.info.remarkType',
+  selectedDays: 'profile.info.selectedDays',
+  timeSlot: 'profile.info.timeSlot',
+  rating: 'profile.info.rating',
+  remark1: 'profile.info.remark1',
+  remark2: 'profile.info.remark2',
 };
 
 // Helper function to validate form data
-const validateFormData = (formData: any) => {
+const validateFormData = (formData: any, t: (k: string) => string) => {
   const errors: any = {};
-  if (!formData.name.trim()) errors.name = '名前を入力してください';
-  if (!formData.age) errors.age = '年齢を選択してください';
-  if (!formData.country) errors.country = '国を選択してください';
-  if (!formData.gender) errors.gender = '性別を選択してください';
+  if (!formData.name.trim()) errors.name = t('validation.name');
+  if (!formData.age) errors.age = t('validation.age');
+  if (!formData.country) errors.country = t('validation.country');
+  if (!formData.gender) errors.gender = t('validation.gender');
   if (!formData.transportation1)
-    errors.transportation1 = '交通手段1を選択してください';
+    errors.transportation1 = t('validation.transportation1');
   if (!formData.walkingTime1)
-    errors.walkingTime1 = '徒歩分数1を選択してください';
+    errors.walkingTime1 = t('validation.walkingTime1');
   if (!formData.postalCode.match(/^\d{7}$/))
-    errors.postalCode = '有効な7桁の郵便番号を入力してください';
-  if (!formData.prefecture) errors.prefecture = '都道府県を選択してください';
-  if (!formData.city) errors.city = '市区町村を選択してください';
-  if (!formData.area) errors.area = '町名・番地を選択してください';
-  if (!formData.address.trim()) errors.address = '住所を入力してください';
+    errors.postalCode = t('validation.postalCode');
+  if (!formData.prefecture) errors.prefecture = t('validation.prefecture');
+  if (!formData.city) errors.city = t('validation.city');
+  if (!formData.area) errors.area = t('validation.area');
+  if (!formData.address.trim()) errors.address = t('validation.address');
   if (!formData.phone.match(/^\d{10,11}$/))
-    errors.phone = '有効な電話番号を入力してください（10-11桁）';
+    errors.phone = t('validation.phone');
   if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/))
-    errors.email = '有効なメールアドレスを入力してください';
-  if (!formData.expiration) errors.expiration = '有効期限を選択してください';
+    errors.email = t('validation.email');
+  if (!formData.expiration) errors.expiration = t('validation.expiration');
   if (!formData.qualificationDate)
-    errors.qualificationDate = '資格取得予定日を選択してください';
-  if (!formData.remarkType) errors.remarkType = '備考種別を選択してください';
+    errors.qualificationDate = t('validation.qualificationDate');
+  if (!formData.remarkType) errors.remarkType = t('validation.remarkType');
   if (formData.selectedDays.length === 0)
-    errors.selectedDays = '少なくとも1つの曜日を選択してください';
-  if (!formData.timeSlot) errors.timeSlot = '時間帯を選択してください';
-  if (!formData.rating) errors.rating = '評価を選択してください';
+    errors.selectedDays = t('validation.selectedDays');
+  if (!formData.timeSlot) errors.timeSlot = t('validation.timeSlot');
+  if (!formData.rating) errors.rating = t('validation.rating');
   return errors;
 };
 
@@ -196,6 +177,7 @@ function SuccessModal({
   icon: any;
   onClose: () => void;
 }) {
+  const { t } = useLanguage();
   return (
     <Modal
       visible={visible}
@@ -210,7 +192,7 @@ function SuccessModal({
           </View>
           <Text style={styles.successText}>{message}</Text>
           <TouchableOpacity style={styles.successBtn} onPress={onClose}>
-            <Text style={styles.successBtnText}>OK</Text>
+            <Text style={styles.successBtnText}>{t('common.ok')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -277,7 +259,7 @@ export default function ProfileScreen() {
     name: '',
     age: '',
     country: '',
-    gender: 'その他',
+    gender: 'other',
     transportation1: '',
     walkingTime1: '',
     transportation2: '',
@@ -318,8 +300,8 @@ export default function ProfileScreen() {
     })();
   }, []);
 
-  const openInfoModal = (title: string, content: string) => {
-    setModalContent({ title, content });
+  const openInfoModal = (title: string, contentKey: string) => {
+    setModalContent({ title, content: t(contentKey) });
     setInfoModalVisible(true);
   };
 
@@ -331,8 +313,8 @@ export default function ProfileScreen() {
   const handleImageDownload = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('権限エラー', '写真へのアクセスが許可されていません。', [
-        { text: 'OK' },
+      Alert.alert(t('error.permission.title'), t('error.permission.photos'), [
+        { text: t('common.ok') },
       ]);
       return;
     }
@@ -348,8 +330,8 @@ export default function ProfileScreen() {
 
   const handleImageSave = async () => {
     if (!imageUri) {
-      Alert.alert('保存エラー', 'まず画像を選択してください。', [
-        { text: 'OK' },
+      Alert.alert(t('error.save.title'), t('error.save.noImage'), [
+        { text: t('common.ok') },
       ]);
       return;
     }
@@ -362,13 +344,15 @@ export default function ProfileScreen() {
         icon: faSave,
       });
     } catch (error) {
-      console.error('保存エラー:', error);
-      Alert.alert('保存失敗', '画像の保存に失敗しました。', [{ text: 'OK' }]);
+      console.error('save-error:', error);
+      Alert.alert(t('error.save.failedTitle'), t('error.save.failedMessage'), [
+        { text: t('common.ok') },
+      ]);
     }
   };
 
   const handleSave = async () => {
-    const validationErrors = validateFormData(formData);
+    const validationErrors = validateFormData(formData, t);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -386,7 +370,7 @@ export default function ProfileScreen() {
   };
 
   const handleDownloadPdf = async () => {
-    const validationErrors = validateFormData(formData);
+    const validationErrors = validateFormData(formData, t);
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
@@ -418,7 +402,13 @@ export default function ProfileScreen() {
               )}:</span> ${formData.country}</div>
               <div class="row"><span class="label">${t(
                 'profile.gender'
-              )}:</span> ${formData.gender}</div>
+              )}:</span> ${
+        formData.gender === 'male'
+          ? t('gender.male')
+          : formData.gender === 'female'
+          ? t('gender.female')
+          : t('gender.other')
+      }</div>
               <div class="row"><span class="label">${t(
                 'profile.phone'
               )}:</span> ${formData.phone}</div>
@@ -489,7 +479,7 @@ export default function ProfileScreen() {
         icon: faDownload,
       });
     } catch (error) {
-      console.error('ダウンロードエラー:', error);
+      console.error('download-error:', error);
     }
   };
 
@@ -497,7 +487,7 @@ export default function ProfileScreen() {
     if (!formData.postalCode.match(/^\d{7}$/)) {
       setErrors((prev) => ({
         ...prev,
-        postalCode: '有効な7桁の郵便番号を入力してください',
+        postalCode: t('validation.postalCode'),
       }));
       return;
     }
@@ -547,7 +537,7 @@ export default function ProfileScreen() {
           imageUri={imageUri}
           onImageDownload={handleImageDownload}
           infoText={infoTexts.name}
-          onInfoPress={() => openInfoModal('氏名', infoTexts.name)}
+          onInfoPress={() => openInfoModal(t('profile.name'), infoTexts.name)}
         />
         <DropdownInputRow
           icon={faCalendarAlt}
@@ -557,68 +547,99 @@ export default function ProfileScreen() {
           onSelect={(value: string) => updateFormData('age', value)}
           error={errors.age}
           infoText={infoTexts.age}
-          onInfoPress={() => openInfoModal('年齢', infoTexts.age)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.age.select'), infoTexts.age)
+          }
         />
         <DropdownInputRow
           icon={faGlobeAsia}
           placeholder={t('profile.country.select')}
-          items={mockData.countries}
+          items={mockData.countries.map((i: any) => ({
+            ...i,
+            label: t(`country.${i.value}`),
+          }))}
           value={formData.country}
           onSelect={(value: string) => updateFormData('country', value)}
           error={errors.country}
           infoText={infoTexts.country}
-          onInfoPress={() => openInfoModal('国籍', infoTexts.country)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.country.select'), infoTexts.country)
+          }
         />
         <GenderSelector
           selected={formData.gender}
           onSelect={(gender: string) => updateFormData('gender', gender)}
           error={errors.gender}
           infoText={infoTexts.gender}
-          onInfoPress={() => openInfoModal('性別', infoTexts.gender)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.gender'), infoTexts.gender)
+          }
         />
         <DropdownInputRow
           icon={faHome}
           placeholder={t('profile.transportation1')}
-          items={mockData.transportation}
+          items={mockData.transportation.map((i: any) => ({
+            ...i,
+            label: t(`transport.${i.value}`),
+          }))}
           value={formData.transportation1}
           onSelect={(value: string) => updateFormData('transportation1', value)}
           error={errors.transportation1}
           infoText={infoTexts.transportation1}
           onInfoPress={() =>
-            openInfoModal('交通手段1', infoTexts.transportation1)
+            openInfoModal(
+              t('profile.transportation1'),
+              infoTexts.transportation1
+            )
           }
         />
         <DropdownInputRow
           icon={faHome}
           placeholder={t('profile.walkingTime1')}
-          items={mockData.walkingTime}
+          items={mockData.walkingTime.map((i: any) => ({
+            ...i,
+            label: t(`walking.${i.value}`),
+          }))}
           value={formData.walkingTime1}
           onSelect={(value: string) => updateFormData('walkingTime1', value)}
           error={errors.walkingTime1}
           infoText={infoTexts.walkingTime1}
-          onInfoPress={() => openInfoModal('徒歩分数1', infoTexts.walkingTime1)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.walkingTime1'), infoTexts.walkingTime1)
+          }
         />
         <DropdownInputRow
           icon={faHome}
           placeholder={t('profile.transportation2')}
-          items={mockData.transportation}
+          items={mockData.transportation.map((i: any) => ({
+            ...i,
+            label: t(`transport.${i.value}`),
+          }))}
           value={formData.transportation2}
           onSelect={(value: string) => updateFormData('transportation2', value)}
           error={errors.transportation2}
           infoText={infoTexts.transportation2}
           onInfoPress={() =>
-            openInfoModal('交通手段2', infoTexts.transportation2)
+            openInfoModal(
+              t('profile.transportation2'),
+              infoTexts.transportation2
+            )
           }
         />
         <DropdownInputRow
           icon={faHome}
           placeholder={t('profile.walkingTime2')}
-          items={mockData.walkingTime}
+          items={mockData.walkingTime.map((i: any) => ({
+            ...i,
+            label: t(`walking.${i.value}`),
+          }))}
           value={formData.walkingTime2}
           onSelect={(value: string) => updateFormData('walkingTime2', value)}
           error={errors.walkingTime2}
           infoText={infoTexts.walkingTime2}
-          onInfoPress={() => openInfoModal('徒歩分数2', infoTexts.walkingTime2)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.walkingTime2'), infoTexts.walkingTime2)
+          }
         />
         <InputRow
           icon={faMapPin}
@@ -631,27 +652,37 @@ export default function ProfileScreen() {
           keyboardType="numeric"
           error={errors.postalCode}
           infoText={infoTexts.postalCode}
-          onInfoPress={() => openInfoModal('郵便番号', infoTexts.postalCode)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.postalCode'), infoTexts.postalCode)
+          }
         />
         <DropdownInputRow
           icon={faFileAlt}
           placeholder={t('profile.prefecture')}
-          items={mockData.prefectures}
+          items={mockData.prefectures.map((i: any) => ({
+            ...i,
+            label: t(`prefecture.${i.value}`),
+          }))}
           value={formData.prefecture}
           onSelect={(value: string) => updateFormData('prefecture', value)}
           error={errors.prefecture}
           infoText={infoTexts.prefecture}
-          onInfoPress={() => openInfoModal('都道府県', infoTexts.prefecture)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.prefecture'), infoTexts.prefecture)
+          }
         />
         <DropdownInputRow
           icon={faFileAlt}
           placeholder={t('profile.city')}
-          items={mockData.cities}
+          items={mockData.cities.map((i: any) => ({
+            ...i,
+            label: t(`city.${i.value}`),
+          }))}
           value={formData.city}
           onSelect={(value: string) => updateFormData('city', value)}
           error={errors.city}
           infoText={infoTexts.city}
-          onInfoPress={() => openInfoModal('市区町村', infoTexts.city)}
+          onInfoPress={() => openInfoModal(t('profile.city'), infoTexts.city)}
         />
         <DropdownInputRow
           icon={faFileAlt}
@@ -661,7 +692,7 @@ export default function ProfileScreen() {
           onSelect={(value: string) => updateFormData('area', value)}
           error={errors.area}
           infoText={infoTexts.area}
-          onInfoPress={() => openInfoModal('町名・番地', infoTexts.area)}
+          onInfoPress={() => openInfoModal(t('profile.area'), infoTexts.area)}
         />
         <InputRow
           icon={faMapPin}
@@ -670,7 +701,9 @@ export default function ProfileScreen() {
           onChangeText={(text: string) => updateFormData('address', text)}
           error={errors.address}
           infoText={infoTexts.address}
-          onInfoPress={() => openInfoModal('住所', infoTexts.address)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.address'), infoTexts.address)
+          }
         />
         <InputRow
           icon={faPhoneAlt}
@@ -680,7 +713,7 @@ export default function ProfileScreen() {
           keyboardType="phone-pad"
           error={errors.phone}
           infoText={infoTexts.phone}
-          onInfoPress={() => openInfoModal('電話番号', infoTexts.phone)}
+          onInfoPress={() => openInfoModal(t('profile.phone'), infoTexts.phone)}
         />
         <InputRow
           icon={faEnvelope}
@@ -690,7 +723,7 @@ export default function ProfileScreen() {
           keyboardType="email-address"
           error={errors.email}
           infoText={infoTexts.email}
-          onInfoPress={() => openInfoModal('メールアドレス', infoTexts.email)}
+          onInfoPress={() => openInfoModal(t('profile.email'), infoTexts.email)}
         />
         <DropdownInputRow
           icon={faCalendarAlt}
@@ -700,7 +733,9 @@ export default function ProfileScreen() {
           onSelect={(value: string) => updateFormData('expiration', value)}
           error={errors.expiration}
           infoText={infoTexts.expiration}
-          onInfoPress={() => openInfoModal('有効期限', infoTexts.expiration)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.expiration'), infoTexts.expiration)
+          }
         />
         <DropdownInputRow
           icon={faCalendarAlt}
@@ -713,18 +748,26 @@ export default function ProfileScreen() {
           error={errors.qualificationDate}
           infoText={infoTexts.qualificationDate}
           onInfoPress={() =>
-            openInfoModal('資格取得予定日', infoTexts.qualificationDate)
+            openInfoModal(
+              t('profile.qualificationDate'),
+              infoTexts.qualificationDate
+            )
           }
         />
         <DropdownInputRow
           icon={faCommentDots}
           placeholder={t('profile.remarkType')}
-          items={mockData.remarkTypes}
+          items={mockData.remarkTypes.map((i: any) => ({
+            ...i,
+            label: t(`remarkType.${i.value}`),
+          }))}
           value={formData.remarkType}
           onSelect={(value: string) => updateFormData('remarkType', value)}
           error={errors.remarkType}
           infoText={infoTexts.remarkType}
-          onInfoPress={() => openInfoModal('備考種別', infoTexts.remarkType)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.remarkType'), infoTexts.remarkType)
+          }
         />
         <WeekSelector
           selectedDays={formData.selectedDays}
@@ -734,19 +777,22 @@ export default function ProfileScreen() {
           error={errors.selectedDays}
           infoText={infoTexts.selectedDays}
           onInfoPress={() =>
-            openInfoModal('勤務可能曜日', infoTexts.selectedDays)
+            openInfoModal(t('profile.selectedDays'), infoTexts.selectedDays)
           }
         />
         <DropdownInputRow
           icon={faClock}
           placeholder={t('profile.timeSlot')}
-          items={mockData.timeSlots}
+          items={mockData.timeSlots.map((i: any) => ({
+            ...i,
+            label: t(`timeSlotOption.${i.value}`),
+          }))}
           value={formData.timeSlot}
           onSelect={(value: string) => updateFormData('timeSlot', value)}
           error={errors.timeSlot}
           infoText={infoTexts.timeSlot}
           onInfoPress={() =>
-            openInfoModal('勤務可能時間帯', infoTexts.timeSlot)
+            openInfoModal(t('profile.timeSlot'), infoTexts.timeSlot)
           }
         />
         <DropdownInputRow
@@ -758,7 +804,7 @@ export default function ProfileScreen() {
           error={errors.rating}
           infoText={infoTexts.rating}
           onInfoPress={() =>
-            openInfoModal('評価・希望レベル', infoTexts.rating)
+            openInfoModal(t('profile.rating'), infoTexts.rating)
           }
         />
         <InputRow
@@ -768,7 +814,9 @@ export default function ProfileScreen() {
           onChangeText={(text: string) => updateFormData('remark1', text)}
           error={errors.remark1}
           infoText={infoTexts.remark1}
-          onInfoPress={() => openInfoModal('備考1', infoTexts.remark1)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.remark1'), infoTexts.remark1)
+          }
         />
         <InputRow
           icon={faFileAlt}
@@ -777,7 +825,9 @@ export default function ProfileScreen() {
           onChangeText={(text: string) => updateFormData('remark2', text)}
           error={errors.remark2}
           infoText={infoTexts.remark2}
-          onInfoPress={() => openInfoModal('備考2', infoTexts.remark2)}
+          onInfoPress={() =>
+            openInfoModal(t('profile.remark2'), infoTexts.remark2)
+          }
         />
         <View style={styles.footerButtons}>
           <TouchableOpacity
@@ -973,8 +1023,10 @@ function GenderSelector({
   infoText = '',
   onInfoPress,
 }: any) {
+  const { t } = useLanguage();
   const icons = [faMars, faVenus, faGenderless];
-  const labels = ['男', '女', 'その他'];
+  const labels = [t('gender.male'), t('gender.female'), t('gender.other')];
+  const values = ['male', 'female', 'other'];
 
   return (
     <View style={styles.inputContainer}>
@@ -990,22 +1042,22 @@ function GenderSelector({
           {labels.map((label, index) => (
             <TouchableOpacity
               key={index}
-              onPress={() => onSelect(label)}
+              onPress={() => onSelect(values[index])}
               style={[
                 styles.genderBox,
-                selected === label && styles.genderActive,
+                selected === values[index] && styles.genderActive,
               ]}
             >
               <FontAwesomeIcon
                 icon={icons[index]}
                 size={12}
-                color={selected === label ? '#fff' : '#374151'}
+                color={selected === values[index] ? '#fff' : '#374151'}
                 style={{ marginRight: 6 }}
               />
               <Text
                 style={[
                   styles.genderText,
-                  selected === label && { color: '#fff' },
+                  selected === values[index] && { color: '#fff' },
                 ]}
               >
                 {label}
@@ -1026,8 +1078,17 @@ function WeekSelector({
   infoText = '',
   onInfoPress,
 }: any) {
+  const { t } = useLanguage();
   const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-  const labels = ['月', '火', '水', '木', '金', '土', '日'];
+  const labels = [
+    t('weekday.short.mon'),
+    t('weekday.short.tue'),
+    t('weekday.short.wed'),
+    t('weekday.short.thu'),
+    t('weekday.short.fri'),
+    t('weekday.short.sat'),
+    t('weekday.short.sun'),
+  ];
 
   const toggleDay = (day: string) => {
     const newSelectedDays = selectedDays.includes(day)
@@ -1059,7 +1120,7 @@ function WeekSelector({
                 ]}
               >
                 <Text style={[styles.dayText, isSelected && { color: '#fff' }]}>
-                  {`${day}\n${labels[index]}`}
+                  {labels[index]}
                 </Text>
               </TouchableOpacity>
             );

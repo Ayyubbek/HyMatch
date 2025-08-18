@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ViewStyle } from 'react-native';
+import { useLanguage } from '@/contexts/LanguageContext';
 import Animated from 'react-native-reanimated';
 
 interface SwipeIndicatorProps {
@@ -9,6 +10,7 @@ interface SwipeIndicatorProps {
 
 export function SwipeIndicator({ type, style }: SwipeIndicatorProps) {
   const isRight = type === 'right';
+  const { t } = useLanguage();
 
   return (
     <Animated.View
@@ -31,7 +33,7 @@ export function SwipeIndicator({ type, style }: SwipeIndicatorProps) {
             isRight ? styles.rotateChoose : styles.rotateRefuse,
           ]}
         >
-          {isRight ? 'Choose' : 'Refusal'}
+          {isRight ? t('common.choose') : t('common.refuse')}
         </Text>
       </View>
     </Animated.View>

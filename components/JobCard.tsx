@@ -144,7 +144,9 @@ export function JobCard({ job }: JobCardProps) {
                   infoText={infoTexts.type}
                   onPress={() => openModal(t('job.type'), infoTexts.type)}
                 />
-                <Text style={styles.infoText}>{job.type}</Text>
+                <Text style={styles.infoText}>
+                  {t(`jobType.${job.type.toLowerCase()}`) || job.type}
+                </Text>
               </View>
               <View style={styles.iconCircleLarge}>
                 <FontAwesomeIcon
@@ -216,6 +218,16 @@ export function JobCard({ job }: JobCardProps) {
               {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(
                 (day, index) => {
                   const isWorkingDay = job.workDays.includes(day);
+                  const shortMap: Record<string, string> = {
+                    Mon: t('weekday.short.mon'),
+                    Tue: t('weekday.short.tue'),
+                    Wed: t('weekday.short.wed'),
+                    Thu: t('weekday.short.thu'),
+                    Fri: t('weekday.short.fri'),
+                    Sat: t('weekday.short.sat'),
+                    Sun: t('weekday.short.sun'),
+                  };
+                  const label = shortMap[day] || day;
                   return (
                     <View
                       key={index}
@@ -231,7 +243,7 @@ export function JobCard({ job }: JobCardProps) {
                             : styles.dayTextInactive
                         }
                       >
-                        {day}
+                        {label}
                       </Text>
                     </View>
                   );
@@ -240,7 +252,7 @@ export function JobCard({ job }: JobCardProps) {
             </View>
             <View style={styles.rowCenterFull}>
               <FontAwesomeIcon icon={faClock} size={22} color="#1E90FF" />
-              <Text style={styles.infoText}>09:00 ～ 18:00</Text>
+              <Text style={styles.infoText}>{t('job.workingHours')}</Text>
             </View>
           </View>
 
