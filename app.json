@@ -31,6 +31,9 @@
       "eas": {
         "projectId": "f4b747ea-fef0-4917-9107-96c023c53d29"
       }
+    },
+    "android": {
+      "package": "com.yourcompany.yourapp"
     }
   }
 }
