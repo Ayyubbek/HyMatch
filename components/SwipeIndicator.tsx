@@ -43,6 +43,7 @@ export function SwipeIndicator({ type, style }: SwipeIndicatorProps) {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
+    pointerEvents: "none",
     top: '45%',
     zIndex: 100,
   },

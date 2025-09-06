@@ -4,6 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { SwipeCards } from '@/components/SwipeCards';
 
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 20,
-    paddingTop: 10,
+    paddingTop: Platform.OS === 'android' ? 30 : 10,
     paddingBottom: 15,
     backgroundColor: '#F5F5F5',
   },

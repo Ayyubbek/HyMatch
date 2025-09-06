@@ -11,6 +11,7 @@ import {
   FlatList,
   Alert,
   Image,
+  Platform,
 } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
@@ -1143,7 +1144,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
+    padding: Platform.OS === 'android' ? 32 : 12,
     justifyContent: 'space-between',
   },
   headerLeftPlaceholder: {
