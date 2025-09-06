@@ -589,7 +589,7 @@ export default function FilterModalRight() {
 
             <Text style={styles.centerTitle}>{filterModal.title}</Text>
             <Text style={styles.centerDesc}>
-              {['important', 'commute'].includes(filterModal.key)
+              {['important', 'commute', 'japanese'].includes(filterModal.key)
                 ? t('common.chooseMany')
                 : t('common.chooseOne')}
             </Text>
@@ -603,7 +603,11 @@ export default function FilterModalRight() {
                     return JAPANESE_LEVEL_OPTIONS.map((opt) => (
                       <TouchableOpacity
                         key={opt.label}
-                        style={styles.optionItem}
+                        style={[
+                          styles.optionItem,
+                          localFilters.japaneseLevels.includes(opt.value) &&
+                            styles.optionItemActive,
+                        ]}
                         onPress={() => {
                           const current = new Set(localFilters.japaneseLevels);
                           if (current.has(opt.value)) current.delete(opt.value);
@@ -614,9 +618,15 @@ export default function FilterModalRight() {
                           } as JobFilters;
                           setLocalFilters(updated);
                           setFilters(updated);
-                          setFilterModal({ ...filterModal, visible: false });
                         }}
                       >
+                        {localFilters.japaneseLevels.includes(opt.value) && (
+                          <Check
+                            size={18}
+                            color="#c29c70"
+                            style={styles.optionCheck}
+                          />
+                        )}
                         <Text style={styles.optionLabel}>{opt.label}</Text>
                       </TouchableOpacity>
                     ));
@@ -731,7 +741,7 @@ export default function FilterModalRight() {
                 })()}
               </View>
             )}
-            {['important', 'commute'].includes(filterModal.key) && (
+            {['important', 'commute', 'japanese'].includes(filterModal.key) && (
               <View style={styles.modalActions}>
                 <TouchableOpacity
                   style={styles.modalActionButton}
