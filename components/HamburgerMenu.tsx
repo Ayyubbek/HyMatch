@@ -32,9 +32,9 @@ export function HamburgerMenu({ isVisible, onClose }: HamburgerMenuProps) {
   const { t, language, setLanguage } = useLanguage();
 
   const languages = [
-    { code: 'ja', name: t('language.japanese'), flag: '🇯🇵' },
-    { code: 'en', name: t('language.english'), flag: '🇺🇸' },
-    { code: 'uz', name: t('language.uzbek'), flag: '🇺🇿' },
+    { code: 'ja', name: t('日本語'), flag: '🇯🇵' },
+    { code: 'en', name: t('English'), flag: '🇺🇸' },
+    { code: 'uz', name: t('Uzbek'), flag: '🇺🇿' },
   ];
 
   const slideAnim = useRef(new Animated.Value(-SCREEN_WIDTH * 0.8)).current;
