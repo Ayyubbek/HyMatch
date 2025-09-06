@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { JobListItem } from '@/components/JobListItem';
 import { useJobs } from '@/contexts/JobContext';
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 12,
-    paddingTop: 20,
+    paddingTop: Platform.OS === 'android' ? 40 : 20,
     paddingBottom: 12,
     backgroundColor: '#ffffff',
     borderBottomWidth: 2,
